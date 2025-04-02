@@ -6,9 +6,9 @@ export default function EnrollmentRoutes(app) {
     res.send(status);
   });
 
-  app.delete("/api/enrollments", async (req, res) => {
-    const { userId, courseId } = req.body;
-    const status = await enrollmentsDao.unenrollUserFromCourse(userId, courseId);
-    res.send(status);
-  });
+  // app.delete("/api/enrollments", async (req, res) => {
+  //   const { userId, courseId } = req.body;
+  //   const status = await enrollmentsDao.unenrollUserFromCourse(userId, courseId);
+  //   res.send(status);
+  // });
 }

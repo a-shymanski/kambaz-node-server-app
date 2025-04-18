@@ -2,6 +2,7 @@ import * as dao from "./dao.js";
 import * as modulesDao from "../Modules/dao.js";
 import * as assignmentsDao from "../Assignments/dao.js";
 import * as quizzesDao from "../Quizzes/dao.js";
+import * as enrollmentsDao from "../Enrollments/dao.js";
 export default function CourseRoutes(app) {
   app.post("/api/courses/:courseId/modules", (req, res) => {
     const { courseId } = req.params;
@@ -65,6 +66,32 @@ export default function CourseRoutes(app) {
     const newQuiz = quizzesDao.createQuiz(quiz);
     res.send(newQuiz);
   });
+
+    // find all user enrollments
+    app.get("/api/courses/enrollments", (req, res) => {
+      const enrollments = enrollmentsDao.findAllEnrollments();
+      res.send(enrollments);
+    });
+  
+    // set all user enrollments
+    app.post("/api/courses/enrollments", (req, res) => {
+      const enrollments = req.body;
+      enrollmentsDao.setEnrollments(enrollments);
+      res.send(enrollments);
+    });
+    // enroll by userid and courseid
+    app.post("/api/courses/:courseId/:userId/enrollments", (req, res) => {
+      const { courseId, userId } = req.params;
+      const status = enrollmentsDao.enrollUserInCourse(userId, courseId);
+      res.send(status);
+    }
+    );
+    // unenroll by userid and courseid
+    app.delete("/api/courses/:courseId/:userId/enrollments", (req, res) => {
+      const { courseId, userId } = req.params;
+      const status = enrollmentsDao.unenrollUserFromCourse(userId, courseId);
+      res.send(status);
+    });
 
 
 }

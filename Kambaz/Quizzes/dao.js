@@ -26,3 +26,15 @@ export function getQuiz(quizId) {
   const { quizzes } = Database;
   return quizzes.filter((quiz) => quiz._id === quizId)[0];
 }
+
+export function saveQuiz(quizId, quizAnswers) {
+  const {submissions} = Database;
+  const newSubmission = {_id: uuidv4(), joe: "yuh", quizId: quizId, quizAnswers: quizAnswers};
+  Database.submissions = [...submissions, newSubmission];
+  return newSubmission;
+}
+
+export function getSubmissions(quizId) {
+  const {submissions} = Database;
+  return submissions.filter((submission) => submission.quizId === quizId)[0];
+}

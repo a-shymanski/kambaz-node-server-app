@@ -11,6 +11,11 @@ export function findQuestionsForQuizAndUser(quizId, userId) {
     return questions.filter((question) => (question.quiz === quizId && question.user === userId));
 }
 
+export function findQuestionsForQuiz(quizId) {
+    const { questions } = Database;
+    return questions.filter((question) => question.quiz === quizId);
+}
+
 export function createQuestion(question, userId) {
     const newQuestion = { ...question, _id: uuidv4(), user: userId };
     Database.questions = [...Database.questions, newQuestion];

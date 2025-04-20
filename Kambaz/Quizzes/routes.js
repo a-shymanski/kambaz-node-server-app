@@ -1,6 +1,7 @@
 import * as quizzesDao from "./dao.js";
 import * as questionsDao from "../Questions/dao.js";
 import * as usersDao from "../Users/dao.js"
+import quizzes from "../Database/quizzes.js";
 
 export default function QuizRoutes(app) {
   app.put("/api/quizzes/:quizId", async (req, res) => {
@@ -33,9 +34,21 @@ export default function QuizRoutes(app) {
         res.send(newQuestion);
     });
 
-  app.get("/api/quizzes/:quizId", async (req, res) => {
+  // app.get("/api/quizzes/:quizId/submissions", async (req, res) => {
+  //   const { quizId } = req.params;
+  //   const quiz = await quizzesDao.getQuiz(quizId);
+  //   res.json(quiz);
+  // });
+
+  app.post("/api/quizzes/:quizId/submissions", async (req, res) => {
+    const { quizId, userAnswers } = req.params; 
+    const submission = await quizzesDao.saveQuiz(quizId, userAnswers);
+    res.json(submission);
+  })
+
+  app.get("/api/quizzes/:quizId/submissions", async (req, res) => {
     const { quizId } = req.params;
-    const quiz = await quizzesDao.getQuiz(quizId);
-    res.json(quiz);
-  });
+    const submissions = await quizzesDao.getSubmissions(quizId);
+    res.json(submissions);
+  })
 }
